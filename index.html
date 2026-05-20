@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BBC General Construction — Building Your Vision, Delivering Excellence." />
+  <title>BBC General Construction</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    /* =============================================
+       Variables globales y reset
+    ============================================= */
+    :root {
+      --color-gris-oscuro: #1C1C1E;
+      --color-gris-medio: #2C2C2E;
+      --color-gris-claro: #f4f4f4;
+      --color-blanco: #ffffff;
+      --color-dorado: #c9a227;
+      --color-dorado-oscuro: #a8841a;
+      --color-texto-suave: #545475;
+      --color-borde: #3A3A3C;
+
+      --fuente-principal: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --fuente-titulos: Georgia, 'Times New Roman', serif;
+
+      --espaciado-xs: 0.5rem;
+      --espaciado-sm: 1rem;
+      --espaciado-md: 2rem;
+      --espaciado-lg: 4rem;
+      --espaciado-xl: 6rem;
+
+      --radio-borde: 4px;
+      --sombra-card: 0 8px 32px rgba(0,0,0,0.18);
+      --transicion: 0.3s ease;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--fuente-principal);
+      background-color: var(--color-blanco);
+      color: var(--color-gris-oscuro);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* =============================================
+       Componentes reutilizables
+    ============================================= */
+    .contenedor {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .etiqueta-seccion {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-dorado);
+      margin-bottom: var(--espaciado-xs);
+    }
+
+    .titulo-seccion {
+      font-family: var(--fuente-titulos);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--color-gris-oscuro);
+      line-height: 1.2;
+      margin-bottom: var(--espaciado-sm);
+    }
+
+    .subtitulo-seccion {
+      font-size: 1rem;
+      color: var(--color-texto-suave);
+      max-width: 560px;
+    }
+
+    /* Animación de brillo deslizante */
+    @keyframes brillo-desliz {
+      from { left: -75%; }
+      to   { left: 125%;  }
+    }
+
+    .btn-primario {
+      display: inline-block;
+      background-color: var(--color-dorado);
+      color: var(--color-gris-oscuro);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: var(--radio-borde);
+      border: 2px solid var(--color-dorado);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    /* Destello de brillo */
+    .btn-primario::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255,255,255,0.45) 50%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      opacity: 0;
+      transition: opacity 0.1s ease;
+    }
+
+    .btn-primario:hover::before,
+    .btn-primario:focus::before {
+      opacity: 1;
+      animation: brillo-desliz 0.55s ease forwards;
+    }
+
+    .btn-primario:hover,
+    .btn-primario:focus {
+      background-color: var(--color-dorado-oscuro);
+      border-color: var(--color-dorado-oscuro);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(201, 162, 39, 0.40);
+      outline: none;
+    }
+
+    .btn-secundario {
+      display: inline-block;
+      background-color: transparent;
+      color: var(--color-blanco);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: var(--radio-borde);
+      border: 2px solid var(--color-blanco);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    /* Destello de brillo */
+    .btn-secundario::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255,255,255,0.30) 50%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      opacity: 0;
+      transition: opacity 0.1s ease;
+    }
+
+    .btn-secundario:hover::before,
+    .btn-secundario:focus::before {
+      opacity: 1;
+      animation: brillo-desliz 0.55s ease forwards;
+    }
+
+    .btn-secundario:hover,
+    .btn-secundario:focus {
+      background-color: var(--color-blanco);
+      color: var(--color-gris-oscuro);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.18);
+      outline: none;
+    }
+
+    /* =============================================
+       Encabezado y navegación
+    ============================================= */
+    .encabezado {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background-color: var(--color-gris-oscuro);
+      border-bottom: 1px solid var(--color-borde);
+      transition: box-shadow var(--transicion);
+    }
+
+    .encabezado.con-sombra {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .nav-contenedor {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--espaciado-xs);
+    }
+
+    .logo-icono {
+      width: 44px;
+      height: 44px;
+      background-color: var(--color-dorado);
+      border-radius: var(--radio-borde);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-icono svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--color-gris-oscuro);
+    }
+
+    .logo-texto {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-nombre {
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--color-blanco);
+    }
+
+    .logo-slogan {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-dorado);
+    }
+
+    /* Menú escritorio */
+    .nav-menu {
+      display: none;
+      gap: var(--espaciado-md);
+      align-items: center;
+    }
+
+    .nav-menu a {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #E5E5EA;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color var(--transicion);
+    }
+
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-dorado);
+      transition: width var(--transicion);
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:focus {
+      color: var(--color-blanco);
+    }
+
+    .nav-menu a:hover::after,
+    .nav-menu a:focus::after {
+      width: 100%;
+    }
+
+    /* Botón hamburguesa */
+    .btn-menu {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--espaciado-xs);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      aria-label: "Abrir menú";
+    }
+
+    .btn-menu span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: var(--color-blanco);
+      border-radius: 2px;
+      transition: transform var(--transicion), opacity var(--transicion);
+    }
+
+    .btn-menu.activo span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .btn-menu.activo span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .btn-menu.activo span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Menú móvil */
+    .nav-movil {
+      display: none;
+      flex-direction: column;
+      background-color: var(--color-gris-medio);
+      border-top: 1px solid var(--color-borde);
+      padding: var(--espaciado-sm) 0;
+    }
+
+    .nav-movil.abierto {
+      display: flex;
+    }
+
+    .nav-movil a {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #E5E5EA;
+      transition: background-color var(--transicion), color var(--transicion);
+    }
+
+    .nav-movil a:hover {
+      background-color: var(--color-borde);
+      color: var(--color-blanco);
+    }
+
+    .nav-movil .btn-primario {
+      margin: 0.5rem 1.5rem 0;
+    }
+
+    /* Teléfono en la barra de navegación */
+    .nav-telefono {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      color: var(--color-dorado);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      transition: color var(--transicion);
+    }
+
+    .nav-telefono svg {
+      width: 15px;
+      height: 15px;
+      fill: var(--color-dorado);
+      flex-shrink: 0;
+    }
+
+    .nav-telefono:hover {
+      color: var(--color-blanco);
+    }
+
+    .nav-telefono:hover svg {
+      fill: var(--color-blanco);
+    }
+
+    /* Ocultar subrayado del enlace de teléfono */
+    .nav-telefono::after {
+      display: none !important;
+    }
+
+    @media (min-width: 900px) {
+      .nav-telefono {
+        display: flex;
+      }
+    }
+
+    /* Teléfono en menú móvil */
+    .nav-movil-telefono {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 1.5rem;
+      color: var(--color-dorado) !important;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      border-top: 1px solid var(--color-borde);
+      margin-top: 0.25rem;
+    }
+
+    .nav-movil-telefono svg {
+      width: 15px;
+      height: 15px;
+      fill: var(--color-dorado);
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       Sección Hero — estilo corporativo americano
+    ============================================= */
+    .hero {
+      min-height: 100vh;
+      background: #1C1C1E;
+      display: flex;
+      flex-direction: column;
+      padding-top: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Resplandor atmosférico de fondo */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 50% at 75% 100%, rgba(201,162,39,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 70% 80% at 20% 40%, rgba(201,162,39,0.05) 0%, transparent 70%),
+        linear-gradient(180deg, #1C1C1E 0%, #221E10 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Línea dorada izquierda — solo escritorio */
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 15%;
+      bottom: 15%;
+      width: 3px;
+      background: linear-gradient(to bottom, transparent, var(--color-dorado) 50%, transparent);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Marca de agua BBC en el fondo del hero */
+    .hero-marca-agua {
+      position: absolute;
+      top: 0.05em;
+      left: 60%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      font-family: var(--fuente-titulos);
+      font-size: clamp(12rem, 35vw, 32rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(201, 162, 39, 0.10);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* Interior del hero: alinea verticalmente el contenido */
+    .hero-interior {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Ciudad SVG — solo visible en escritorio */
+    .hero-ciudad {
+      display: none;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 58%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-contenido {
+      padding: var(--espaciado-lg) 0;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    /* Insignias de confianza */
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: var(--espaciado-md);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #8E8E93;
+      border: 1px solid #3A3A3C;
+      border-radius: 2px;
+      padding: 5px 10px;
+    }
+
+    .hero-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: var(--color-dorado);
+      flex-shrink: 0;
+    }
+
+    /* Título principal: enorme e impactante */
+    .hero-titulo {
+      font-family: var(--fuente-titulos);
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--color-blanco);
+      margin-bottom: var(--espaciado-sm);
+      letter-spacing: -0.01em;
+    }
+
+    .hero-titulo em {
+      font-style: normal;
+      color: var(--color-dorado);
+      display: block;
+    }
+
+    /* Subtítulo en español */
+    .hero-subtitulo-es {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6C6C70;
+      margin-bottom: var(--espaciado-md);
+      border-left: 3px solid var(--color-dorado);
+      padding-left: 12px;
+    }
+
+    .hero-descripcion {
+      font-size: 1.05rem;
+      color: #AEAEB2;
+      max-width: 500px;
+      margin-bottom: var(--espaciado-md);
+      line-height: 1.8;
+    }
+
+    .hero-botones {
+      display: flex;
+      gap: var(--espaciado-sm);
+      flex-wrap: wrap;
+    }
+
+    /* Botón primario hero: más grande y con flecha */
+    .hero-botones .btn-primario {
+      font-size: 0.875rem;
+      padding: 1rem 2.2rem;
+    }
+
+    .hero-botones .btn-secundario {
+      font-size: 0.875rem;
+      padding: 1rem 2.2rem;
+    }
+
+    /* Barra de estadísticas (parte inferior del hero) */
+    .hero-stats {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background-color: #3A3A3C;
+      border-top: 1px solid #3A3A3C;
+    }
+
+    .hero-stat {
+      background-color: #141416;
+      padding: 1.4rem var(--espaciado-sm);
+      text-align: center;
+      position: relative;
+    }
+
+    /* Separador entre stats */
+    .hero-stat + .hero-stat::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 25%;
+      bottom: 25%;
+      width: 1px;
+      background-color: #3A3A3C;
+    }
+
+    .hero-stat-numero {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--color-dorado);
+      line-height: 1;
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-stat-etiqueta {
+      font-size: 0.68rem;
+      color: #8E8E93;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* En escritorio: 4 columnas y ciudad visible */
+    @media (min-width: 900px) {
+      .hero::after {
+        opacity: 1;
+      }
+
+      .hero-ciudad {
+        display: block;
+      }
+
+      .hero-contenido {
+        max-width: 560px;
+      }
+
+      .hero-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hero-stat-numero {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* =============================================
+       Sección de servicios
+    ============================================= */
+    .servicios {
+      padding: var(--espaciado-xl) 0;
+      background-color: var(--color-blanco);
+    }
+
+    .servicios-cabecera {
+      margin-bottom: var(--espaciado-lg);
+    }
+
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--espaciado-md);
+    }
+
+    .servicio-card {
+      background-color: var(--color-blanco);
+      border: 1px solid #e5e5e5;
+      border-radius: var(--radio-borde);
+      padding: var(--espaciado-md);
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    }
+
+    .servicio-card:hover {
+      transform: scale(1.20);
+      box-shadow:
+        0 20px 60px rgba(201, 162, 39, 0.18),
+        0 8px 24px rgba(0, 0, 0, 0.14);
+      border-color: var(--color-dorado);
+    }
+
+    .servicio-icono {
+      width: 56px;
+      height: 56px;
+      background-color: var(--color-gris-claro);
+      border-radius: var(--radio-borde);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--espaciado-sm);
+      transition: background-color var(--transicion);
+    }
+
+    .servicio-card:hover .servicio-icono {
+      background-color: var(--color-dorado);
+    }
+
+    .servicio-icono svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--color-gris-oscuro);
+      transition: fill var(--transicion);
+    }
+
+    .servicio-titulo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--color-gris-oscuro);
+      margin-bottom: var(--espaciado-xs);
+    }
+
+    .servicio-descripcion {
+      font-size: 0.9rem;
+      color: var(--color-texto-suave);
+      line-height: 1.7;
+      margin-bottom: var(--espaciado-sm);
+    }
+
+    .servicio-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .servicio-lista li {
+      font-size: 0.825rem;
+      color: #6C6C70;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .servicio-lista li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background-color: var(--color-dorado);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       Sección "¿Por qué elegirnos?"
+    ============================================= */
+    .por-que {
+      background-color: var(--color-gris-oscuro);
+      padding: var(--espaciado-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Fondo decorativo */
+    .por-que::after {
+      content: 'BBC';
+      position: absolute;
+      bottom: -40px;
+      right: -20px;
+      font-size: 18rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.02);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .por-que .titulo-seccion {
+      color: var(--color-blanco);
+    }
+
+    .por-que .subtitulo-seccion {
+      color: #8E8E93;
+    }
+
+    .por-que-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--espaciado-lg);
+      align-items: start;
+    }
+
+    /* Estadísticas numéricas */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background-color: var(--color-borde);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-borde);
+      overflow: hidden;
+      margin-top: var(--espaciado-md);
+    }
+
+    .stat-item {
+      background-color: var(--color-gris-medio);
+      padding: var(--espaciado-md);
+      text-align: center;
+    }
+
+    .stat-numero {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      color: var(--color-dorado);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-descripcion {
+      font-size: 0.8rem;
+      color: #8E8E93;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Razones para elegirnos */
+    .razones-lista {
+      display: flex;
+      flex-direction: column;
+      gap: var(--espaciado-md);
+    }
+
+    .razon-item {
+      display: flex;
+      gap: var(--espaciado-sm);
+      align-items: flex-start;
+    }
+
+    .razon-numero {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--color-dorado);
+      opacity: 0.4;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 2.5rem;
+    }
+
+    .razon-contenido {}
+
+    .razon-titulo {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-blanco);
+      margin-bottom: 4px;
+    }
+
+    .razon-texto {
+      font-size: 0.875rem;
+      color: #8E8E93;
+      line-height: 1.7;
+    }
+
+    /* =============================================
+       Banda CTA intermedia
+    ============================================= */
+    .cta-banda {
+      background-color: var(--color-dorado);
+      padding: var(--espaciado-lg) 0;
+    }
+
+    .cta-banda-contenido {
+      display: flex;
+      flex-direction: column;
+      gap: var(--espaciado-sm);
+      align-items: flex-start;
+    }
+
+    .cta-banda h2 {
+      font-family: var(--fuente-titulos);
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--color-gris-oscuro);
+      line-height: 1.2;
+    }
+
+    .cta-banda p {
+      font-size: 0.95rem;
+      color: rgba(28,28,28,0.75);
+    }
+
+    .btn-oscuro {
+      display: inline-block;
+      background-color: var(--color-gris-oscuro);
+      color: var(--color-blanco);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: var(--radio-borde);
+      border: 2px solid var(--color-gris-oscuro);
+      cursor: pointer;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    /* Destello de brillo */
+    .btn-oscuro::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255,255,255,0.25) 50%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      opacity: 0;
+      transition: opacity 0.1s ease;
+    }
+
+    .btn-oscuro:hover::before,
+    .btn-oscuro:focus::before {
+      opacity: 1;
+      animation: brillo-desliz 0.55s ease forwards;
+    }
+
+    .btn-oscuro:hover,
+    .btn-oscuro:focus {
+      background-color: transparent;
+      color: var(--color-gris-oscuro);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(28, 28, 28, 0.25);
+      outline: none;
+    }
+
+    /* =============================================
+       Pie de página
+    ============================================= */
+    .pie {
+      background-color: var(--color-gris-oscuro);
+      border-top: 1px solid var(--color-borde);
+      padding: var(--espaciado-lg) 0 0;
+    }
+
+    .pie-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--espaciado-lg);
+      padding-bottom: var(--espaciado-lg);
+      border-bottom: 1px solid var(--color-borde);
+    }
+
+    .pie-marca p {
+      font-size: 0.875rem;
+      color: #8E8E93;
+      margin-top: var(--espaciado-sm);
+      line-height: 1.7;
+      max-width: 300px;
+    }
+
+    .pie-titulo {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-dorado);
+      margin-bottom: var(--espaciado-sm);
+    }
+
+    /* Contacto */
+    .contacto-lista {
+      display: flex;
+      flex-direction: column;
+      gap: var(--espaciado-sm);
+    }
+
+    .contacto-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .contacto-icono {
+      width: 36px;
+      height: 36px;
+      background-color: var(--color-borde);
+      border-radius: var(--radio-borde);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contacto-icono svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--color-dorado);
+    }
+
+    .contacto-texto {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contacto-etiqueta {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6C6C70;
+    }
+
+    .contacto-valor {
+      font-size: 0.875rem;
+      color: #E5E5EA;
+    }
+
+    /* Navegación del pie */
+    .pie-nav ul {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pie-nav a {
+      font-size: 0.875rem;
+      color: #8E8E93;
+      transition: color var(--transicion);
+    }
+
+    .pie-nav a:hover {
+      color: var(--color-dorado);
+    }
+
+    /* Línea de copyright */
+    .pie-copyright {
+      padding: var(--espaciado-md) 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--espaciado-xs);
+      align-items: center;
+      text-align: center;
+    }
+
+    .pie-copyright p {
+      font-size: 0.8rem;
+      color: #6C6C70;
+    }
+
+    .pie-copyright span {
+      color: var(--color-dorado);
+    }
+
+    /* Redes sociales */
+    .redes-sociales {
+      display: flex;
+      gap: 12px;
+    }
+
+    .red-social {
+      width: 36px;
+      height: 36px;
+      background-color: var(--color-borde);
+      border-radius: var(--radio-borde);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--transicion);
+    }
+
+    .red-social:hover {
+      background-color: var(--color-dorado);
+    }
+
+    .red-social svg {
+      width: 16px;
+      height: 16px;
+      fill: #888888;
+      transition: fill var(--transicion);
+    }
+
+    .red-social:hover svg {
+      fill: var(--color-gris-oscuro);
+    }
+
+    /* =============================================
+       Responsive — tablet (min 640px)
+    ============================================= */
+    @media (min-width: 640px) {
+      .servicios-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cta-banda-contenido {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .pie-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .pie-copyright {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    /* =============================================
+       Responsive — escritorio (min 900px)
+    ============================================= */
+    @media (min-width: 900px) {
+      .nav-menu {
+        display: flex;
+      }
+
+      .btn-menu {
+        display: none;
+      }
+
+      .servicios-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .por-que-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espaciado-xl);
+        align-items: center;
+      }
+
+      .pie-grid {
+        grid-template-columns: 2fr 1fr 1fr;
+      }
+    }
+
+    /* =============================================
+       Modal de cotización
+    ============================================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.80);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: var(--espaciado-sm);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.activo {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-contenedor {
+      background-color: var(--color-gris-medio);
+      border: 1px solid var(--color-borde);
+      border-top: 3px solid var(--color-dorado);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      padding: var(--espaciado-md);
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.35s ease;
+    }
+
+    .modal-overlay.activo .modal-contenedor {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-cerrar {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-borde);
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #8E8E93;
+      transition: border-color var(--transicion), color var(--transicion), background-color var(--transicion);
+    }
+
+    .modal-cerrar:hover {
+      border-color: var(--color-dorado);
+      color: var(--color-dorado);
+      background-color: rgba(201, 162, 39, 0.08);
+    }
+
+    .modal-cerrar svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .modal-cabecera {
+      margin-bottom: var(--espaciado-md);
+      padding-right: 2.5rem;
+    }
+
+    .modal-titulo {
+      font-family: var(--fuente-titulos);
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 700;
+      color: var(--color-blanco);
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+
+    .modal-subtitulo {
+      font-size: 0.875rem;
+      color: #8E8E93;
+      line-height: 1.6;
+    }
+
+    /* Campos del formulario */
+    .form-grupo {
+      margin-bottom: var(--espaciado-sm);
+    }
+
+    .form-grupo label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--color-dorado);
+      margin-bottom: 7px;
+    }
+
+    .form-grupo input,
+    .form-grupo select,
+    .form-grupo textarea {
+      width: 100%;
+      background-color: var(--color-gris-oscuro);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-borde);
+      color: var(--color-blanco);
+      font-family: var(--fuente-principal);
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color var(--transicion), box-shadow var(--transicion);
+    }
+
+    .form-grupo input::placeholder,
+    .form-grupo textarea::placeholder {
+      color: #4A4A4E;
+    }
+
+    .form-grupo input:focus,
+    .form-grupo select:focus,
+    .form-grupo textarea:focus {
+      border-color: var(--color-dorado);
+      box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.12);
+    }
+
+    .form-grupo select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238E8E93'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 20px;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .form-grupo select option {
+      background-color: var(--color-gris-medio);
+      color: var(--color-blanco);
+    }
+
+    .form-grupo textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-fila {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    @media (min-width: 480px) {
+      .form-fila {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espaciado-sm);
+      }
+    }
+
+    .modal-form .btn-primario {
+      width: 100%;
+      font-size: 0.9rem;
+      padding: 1rem;
+      margin-top: 0.25rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .modal-form .btn-primario:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Mensaje de error global */
+    .form-error-global {
+      background-color: rgba(255, 59, 48, 0.10);
+      border: 1px solid rgba(255, 59, 48, 0.30);
+      border-radius: var(--radio-borde);
+      color: #FF6B6B;
+      font-size: 0.85rem;
+      padding: 0.75rem 1rem;
+      margin-bottom: var(--espaciado-sm);
+      display: none;
+    }
+
+    .form-error-global.visible {
+      display: block;
+    }
+
+    /* Pantalla de éxito */
+    .modal-exito {
+      text-align: center;
+      padding: var(--espaciado-lg) var(--espaciado-md);
+    }
+
+    .modal-exito-icono {
+      width: 68px;
+      height: 68px;
+      background-color: rgba(201, 162, 39, 0.10);
+      border: 2px solid var(--color-dorado);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--espaciado-sm);
+    }
+
+    .modal-exito-icono svg {
+      width: 34px;
+      height: 34px;
+      fill: var(--color-dorado);
+    }
+
+    .modal-exito h3 {
+      font-family: var(--fuente-titulos);
+      font-size: 1.6rem;
+      color: var(--color-blanco);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-exito p {
+      color: #8E8E93;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    /* =============================================
+       Botón flotante de WhatsApp
+    ============================================= */
+    .whatsapp-flotante {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    /* Tooltip */
+    .whatsapp-tooltip {
+      background-color: #1C1C1E;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      padding: 8px 14px;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+
+    .whatsapp-tooltip::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 5px 0 5px 6px;
+      border-style: solid;
+      border-color: transparent transparent transparent #1C1C1E;
+    }
+
+    .whatsapp-flotante:hover .whatsapp-tooltip,
+    .whatsapp-flotante:focus .whatsapp-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Botón circular */
+    .whatsapp-btn {
+      width: 58px;
+      height: 58px;
+      background-color: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 4px 20px rgba(37, 211, 102, 0.45),
+        0 2px 8px rgba(0,0,0,0.20);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .whatsapp-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: #ffffff;
+    }
+
+    .whatsapp-flotante:hover .whatsapp-btn,
+    .whatsapp-flotante:focus .whatsapp-btn {
+      transform: scale(1.10);
+      box-shadow:
+        0 6px 28px rgba(37, 211, 102, 0.60),
+        0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    /* Anillo de pulso */
+    .whatsapp-btn::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(37, 211, 102, 0.5);
+      animation: whatsapp-pulso 2.4s ease-out infinite;
+    }
+
+    @keyframes whatsapp-pulso {
+      0%   { transform: scale(1);   opacity: 0.8; }
+      70%  { transform: scale(1.4); opacity: 0; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .whatsapp-btn::before { animation: none; }
+    }
+
+    /* =============================================
+       Sección de galería de proyectos
+    ============================================= */
+    .proyectos {
+      padding: var(--espaciado-xl) 0;
+      background-color: var(--color-gris-oscuro);
+    }
+
+    .proyectos-cabecera {
+      margin-bottom: var(--espaciado-lg);
+    }
+
+    .proyectos .titulo-seccion {
+      color: var(--color-blanco);
+    }
+
+    .proyectos .subtitulo-seccion {
+      color: #8E8E93;
+    }
+
+    /* Filtros de categoría */
+    .proyectos-filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: var(--espaciado-md);
+    }
+
+    .filtro-btn {
+      background: none;
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-borde);
+      color: #8E8E93;
+      font-family: var(--fuente-principal);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      transition:
+        background-color var(--transicion),
+        border-color var(--transicion),
+        color var(--transicion);
+    }
+
+    .filtro-btn:hover {
+      border-color: var(--color-dorado);
+      color: var(--color-dorado);
+    }
+
+    .filtro-btn.activo {
+      background-color: var(--color-dorado);
+      border-color: var(--color-dorado);
+      color: var(--color-gris-oscuro);
+    }
+
+    /* Grid de proyectos */
+    .proyectos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--espaciado-md);
+      transition: opacity 0.25s ease;
+    }
+
+    @media (min-width: 640px) {
+      .proyectos-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .proyectos-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Tarjeta de proyecto */
+    .proyecto-card {
+      background-color: var(--color-gris-medio);
+      border: 1px solid var(--color-borde);
+      border-radius: 6px;
+      overflow: hidden;
+      transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+    }
+
+    .proyecto-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+      border-color: var(--color-dorado);
+    }
+
+    /* Contenedor de imagen con zoom */
+    .proyecto-imagen {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+    }
+
+    .proyecto-imagen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.55s ease;
+    }
+
+    .proyecto-card:hover .proyecto-imagen img {
+      transform: scale(1.08);
+    }
+
+    /* Overlay dorado sutil en hover */
+    .proyecto-imagen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 40%,
+        rgba(201, 162, 39, 0.18) 100%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .proyecto-card:hover .proyecto-imagen::after {
+      opacity: 1;
+    }
+
+    /* Badge de categoría */
+    .proyecto-badge {
+      display: none;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background-color: var(--color-dorado);
+      color: var(--color-gris-oscuro);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    /* Info debajo de la imagen */
+    .proyecto-info {
+      padding: 1.2rem var(--espaciado-sm);
+    }
+
+    .proyecto-nombre {
+      display: none;
+      font-family: var(--fuente-titulos);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-blanco);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .proyecto-descripcion {
+      display: none;
+      font-size: 0.825rem;
+      color: #8E8E93;
+      line-height: 1.65;
+    }
+
+    .proyecto-meta {
+      display: none;
+    }
+
+    /* =============================================
+       Animación de entrada (reduce-motion safe)
+    ============================================= */
+    @media (prefers-reduced-motion: no-preference) {
+      .animar-entrada {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .animar-entrada.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       Encabezado principal con navegación
+  ============================================= -->
+  <header class="encabezado" id="encabezado">
+    <div class="contenedor">
+      <nav class="nav-contenedor" aria-label="Main navigation">
+
+        <!-- Logo -->
+        <a href="#inicio" class="logo" aria-label="BBC General Construction — Home">
+          <div class="logo-icono" aria-hidden="true">
+            <!-- Icono de edificio simplificado -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 21V7l9-4 9 4v14H3zm2-2h4v-4H5v4zm6 0h4v-4h-4v4zm6 0h2v-4h-2v4zM5 13h4V9H5v4zm6 0h4V9h-4v4zm6 0h2V9h-2v4z"/>
+            </svg>
+          </div>
+          <div class="logo-texto">
+            <span class="logo-nombre">BBC</span>
+            <span class="logo-slogan">General Construction</span>
+          </div>
+        </a>
+
+        <!-- Desktop menu -->
+        <ul class="nav-menu" role="list">
+          <li><a href="#inicio">Home</a></li>
+          <li><a href="#servicios">Services</a></li>
+          <li><a href="#nosotros">About Us</a></li>
+          <li><a href="#contacto">Contact</a></li>
+          <li>
+            <a href="tel:+13109912102" class="nav-telefono" aria-label="Llamar al +1 (310) 991-2102">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+              +1 (310) 991-2102
+            </a>
+          </li>
+          <li><a href="#contacto" class="btn-primario" data-abre-modal>Get a Quote</a></li>
+        </ul>
+
+        <!-- Mobile hamburger button -->
+        <button class="btn-menu" id="btnMenu" aria-expanded="false" aria-controls="menuMovil" aria-label="Open navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+      </nav>
+    </div>
+
+    <!-- Mobile dropdown menu -->
+    <nav class="nav-movil" id="menuMovil" aria-label="Mobile menu">
+      <a href="#inicio">Home</a>
+      <a href="#servicios">Services</a>
+      <a href="#nosotros">About Us</a>
+      <a href="#contacto">Contact</a>
+      <a href="#contacto" class="btn-primario" data-abre-modal>Get a Quote</a>
+      <a href="tel:+13109912102" class="nav-movil-telefono" aria-label="Llamar al +1 (310) 991-2102">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        +1 (310) 991-2102
+      </a>
+    </nav>
+  </header>
+
+
+  <!-- =============================================
+       Sección Hero — diseño americano corporativo
+  ============================================= -->
+  <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+
+    <!-- Silueta de ciudad / rascacielos (solo escritorio) -->
+    <svg class="hero-ciudad" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg"
+         preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+      <defs>
+        <!-- Resplandor dorado en el horizonte -->
+        <linearGradient id="horizonte" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#c9a227" stop-opacity="0.25"/>
+          <stop offset="18%" stop-color="#c9a227" stop-opacity="0.06"/>
+          <stop offset="100%" stop-color="#c9a227" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Patrón de ventanas pequeñas -->
+        <pattern id="win-sm" x="0" y="0" width="14" height="18" patternUnits="userSpaceOnUse">
+          <rect x="2" y="3" width="9" height="11" fill="#c9a227" opacity="0.10"/>
+        </pattern>
+        <!-- Patrón de ventanas grandes -->
+        <pattern id="win-lg" x="0" y="0" width="18" height="22" patternUnits="userSpaceOnUse">
+          <rect x="2" y="3" width="12" height="15" fill="#c9a227" opacity="0.09"/>
+        </pattern>
+      </defs>
+
+      <!-- Resplandor base del horizonte -->
+      <rect x="0" y="430" width="900" height="270" fill="url(#horizonte)"/>
+
+      <!-- Edificios de fondo lejano -->
+      <rect x="0"   y="450" width="55"  height="250" fill="#151515"/>
+      <rect x="64"  y="390" width="42"  height="310" fill="#161616"/>
+      <rect x="830" y="420" width="70"  height="280" fill="#151515"/>
+      <rect x="858" y="360" width="42"  height="340" fill="#161616"/>
+
+      <!-- Edificio izquierdo bajo -->
+      <rect x="148" y="380" width="82"  height="320" fill="#1e1e1e"/>
+      <rect x="148" y="380" width="82"  height="320" fill="url(#win-sm)"/>
+
+      <!-- Torre escalonada estilo art-deco izquierda -->
+      <rect x="248" y="290" width="78"  height="410" fill="#222222"/>
+      <rect x="262" y="240" width="50"  height="460" fill="#242424"/>
+      <rect x="276" y="200" width="22"  height="500" fill="#272727"/>
+      <rect x="248" y="290" width="78"  height="410" fill="url(#win-sm)" opacity="0.8"/>
+
+      <!-- Rascacielos principal central — el más alto -->
+      <rect x="460" y="60"  width="120" height="640" fill="#252525"/>
+      <rect x="460" y="60"  width="120" height="640" fill="url(#win-lg)" opacity="0.9"/>
+      <!-- Forma escalonada en la cima estilo Empire State -->
+      <rect x="476" y="40"  width="88"  height="30"  fill="#282828"/>
+      <rect x="492" y="18"  width="56"  height="28"  fill="#2c2c2c"/>
+      <rect x="506" y="0"   width="28"  height="22"  fill="#303030"/>
+      <!-- Antena -->
+      <rect x="517" y="0"   width="6"   height="30"  fill="#3a3a3a"/>
+      <!-- Detalles verticales en el edificio -->
+      <rect x="478" y="60"  width="4"   height="640" fill="#2a2a2a" opacity="0.5"/>
+      <rect x="494" y="60"  width="4"   height="640" fill="#2a2a2a" opacity="0.5"/>
+      <rect x="510" y="60"  width="4"   height="640" fill="#2a2a2a" opacity="0.5"/>
+      <rect x="526" y="60"  width="4"   height="640" fill="#2a2a2a" opacity="0.5"/>
+      <rect x="542" y="60"  width="4"   height="640" fill="#2a2a2a" opacity="0.5"/>
+      <rect x="558" y="60"  width="4"   height="640" fill="#2a2a2a" opacity="0.5"/>
+
+      <!-- Torre de vidrio moderna (derecha del principal) -->
+      <rect x="598" y="170" width="92"  height="530" fill="#1e2020"/>
+      <rect x="598" y="170" width="92"  height="530" fill="url(#win-lg)" opacity="0.7"/>
+      <!-- Líneas de vidrio horizontales -->
+      <line x1="598" y1="190" x2="690" y2="190" stroke="#262626" stroke-width="1.5"/>
+      <line x1="598" y1="210" x2="690" y2="210" stroke="#262626" stroke-width="1.5"/>
+      <line x1="598" y1="230" x2="690" y2="230" stroke="#262626" stroke-width="1.5"/>
+      <line x1="598" y1="250" x2="690" y2="250" stroke="#262626" stroke-width="1.5"/>
+      <line x1="598" y1="270" x2="690" y2="270" stroke="#262626" stroke-width="1.5"/>
+      <line x1="598" y1="290" x2="690" y2="290" stroke="#262626" stroke-width="1.5"/>
+      <line x1="598" y1="310" x2="690" y2="310" stroke="#262626" stroke-width="1.5"/>
+      <line x1="598" y1="330" x2="690" y2="330" stroke="#262626" stroke-width="1.5"/>
+
+      <!-- Torre escalonada derecha -->
+      <rect x="700" y="300" width="105" height="400" fill="#202020"/>
+      <rect x="718" y="250" width="68"  height="450" fill="#222222"/>
+      <rect x="734" y="200" width="36"  height="500" fill="#252525"/>
+      <rect x="700" y="300" width="105" height="400" fill="url(#win-sm)" opacity="0.7"/>
+
+      <!-- Edificio mediano entre principal y torre vidrio -->
+      <rect x="376" y="220" width="70"  height="480" fill="#212121"/>
+      <rect x="376" y="220" width="70"  height="480" fill="url(#win-sm)" opacity="0.7"/>
+
+      <!-- Grúa de construcción (detalle de obra activa) -->
+      <line x1="118" y1="220" x2="118" y2="700" stroke="#252525" stroke-width="5"/>
+      <line x1="60"  y1="225" x2="210" y2="225" stroke="#252525" stroke-width="4"/>
+      <!-- Contrapeso -->
+      <rect x="57"  y="218" width="20" height="14" fill="#2a2a2a"/>
+      <!-- Cable de carga -->
+      <line x1="195" y1="228" x2="195" y2="330" stroke="#2e2e2e" stroke-width="1.5"/>
+      <rect x="183" y="330" width="24" height="16" fill="#282828"/>
+      <!-- Tirante diagonal -->
+      <line x1="118" y1="225" x2="68"  y2="340" stroke="#232323" stroke-width="2"/>
+
+      <!-- Ventanas iluminadas (detalle de vida) -->
+      <rect x="480" y="280" width="10" height="14" rx="1" fill="#c9a227" opacity="0.50"/>
+      <rect x="497" y="260" width="10" height="14" rx="1" fill="#c9a227" opacity="0.45"/>
+      <rect x="514" y="300" width="10" height="14" rx="1" fill="#c9a227" opacity="0.55"/>
+      <rect x="531" y="280" width="10" height="14" rx="1" fill="#c9a227" opacity="0.40"/>
+      <rect x="548" y="240" width="10" height="14" rx="1" fill="#c9a227" opacity="0.35"/>
+      <rect x="392" y="260" width="9"  height="12" rx="1" fill="#c9a227" opacity="0.30"/>
+      <rect x="406" y="280" width="9"  height="12" rx="1" fill="#c9a227" opacity="0.25"/>
+      <rect x="614" y="220" width="10" height="14" rx="1" fill="#c9a227" opacity="0.25"/>
+      <rect x="632" y="250" width="10" height="14" rx="1" fill="#c9a227" opacity="0.20"/>
+      <rect x="265" y="240" width="8"  height="11" rx="1" fill="#c9a227" opacity="0.25"/>
+      <rect x="278" y="260" width="8"  height="11" rx="1" fill="#c9a227" opacity="0.20"/>
+
+      <!-- Suelo -->
+      <rect x="0" y="690" width="900" height="10" fill="#141416"/>
+    </svg>
+
+    <!-- Marca de agua de fondo -->
+    <span class="hero-marca-agua" aria-hidden="true">BBC</span>
+
+    <!-- Contenido del hero -->
+    <div class="hero-interior">
+      <div class="contenedor">
+        <div class="hero-contenido">
+
+          <!-- Trust badges -->
+          <div class="hero-badges" aria-label="Company certifications">
+            <span class="hero-badge">
+              <!-- Ícono escudo -->
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              Fully Insured
+            </span>
+          </div>
+
+          <!-- Título principal bilingüe -->
+          <h1 class="hero-titulo" id="hero-titulo">
+            Building Your Vision,<br />
+            <em>Delivering Excellence</em>
+          </h1>
+
+          <!-- Tagline -->
+          <p class="hero-subtitulo-es" aria-label="Company tagline">
+            We Build the Future with Precision, Integrity &amp; Pride
+          </p>
+
+          <p class="hero-descripcion">
+            From residential homes to large-scale commercial developments,
+            BBC General Construction delivers projects on time, on budget,
+            and built to last generations.
+          </p>
+
+          <div class="hero-botones">
+            <a href="#contacto" class="btn-primario" data-abre-modal>Get a Quote</a>
+            <a href="#servicios" class="btn-secundario">View Our Projects</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de estadísticas impactantes -->
+    <div class="hero-stats" aria-label="Company highlights">
+      <div class="hero-stat">
+        <div class="hero-stat-numero" aria-label="More than 500 projects completed">500+</div>
+        <div class="hero-stat-etiqueta">Projects Completed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-numero" aria-label="25 years of experience">25 Yrs</div>
+        <div class="hero-stat-etiqueta">Years of Experience</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-numero" aria-label="100% client satisfaction">100%</div>
+        <div class="hero-stat-etiqueta">Client Satisfaction</div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- =============================================
+       Sección de servicios
+  ============================================= -->
+  <section class="servicios" id="servicios" aria-labelledby="servicios-titulo">
+    <div class="contenedor">
+
+      <header class="servicios-cabecera">
+        <span class="etiqueta-seccion">What We Do</span>
+        <h2 class="titulo-seccion" id="servicios-titulo">Our Services</h2>
+        <p class="subtitulo-seccion">
+          Comprehensive construction solutions tailored to every need,
+          delivered with the highest standards of quality and safety.
+        </p>
+      </header>
+
+      <div class="servicios-grid">
+
+        <!-- Construcción residencial -->
+        <article class="servicio-card animar-entrada" aria-labelledby="servicio-residencial">
+          <div class="servicio-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+          </div>
+          <h3 class="servicio-titulo" id="servicio-residencial">Residential Construction</h3>
+          <p class="servicio-descripcion">
+            We design and build homes that blend functionality, aesthetics,
+            and durability to bring your dream home to life.
+          </p>
+          <ul class="servicio-lista" aria-label="Includes">
+            <li>Single-family homes and duplexes</li>
+            <li>Residential communities</li>
+            <li>High-end finishes</li>
+            <li>Full-time on-site supervision</li>
+          </ul>
+        </article>
+
+        <!-- Construcción comercial -->
+        <article class="servicio-card animar-entrada" aria-labelledby="servicio-comercial">
+          <div class="servicio-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+            </svg>
+          </div>
+          <h3 class="servicio-titulo" id="servicio-comercial">Commercial Construction</h3>
+          <p class="servicio-descripcion">
+            We build commercial and industrial spaces that boost productivity
+            and project your company's identity.
+          </p>
+          <ul class="servicio-lista" aria-label="Includes">
+            <li>Offices and business centers</li>
+            <li>Warehouses and industrial facilities</li>
+            <li>Retail spaces and shopping centers</li>
+            <li>Permit and license management</li>
+          </ul>
+        </article>
+
+        <!-- Remodelaciones -->
+        <article class="servicio-card animar-entrada" aria-labelledby="servicio-remodelaciones">
+          <div class="servicio-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+            </svg>
+          </div>
+          <h3 class="servicio-titulo" id="servicio-remodelaciones">Renovations</h3>
+          <p class="servicio-descripcion">
+            We renovate and transform existing spaces with precise interventions
+            that maximize the value and utility of your property.
+          </p>
+          <ul class="servicio-lista" aria-label="Includes">
+            <li>Extensions and adaptations</li>
+            <li>Facade renovation</li>
+            <li>Full interior remodel</li>
+            <li>System and utility upgrades</li>
+          </ul>
+        </article>
+
+        <!-- Consultoría -->
+        <article class="servicio-card animar-entrada" aria-labelledby="servicio-consultoria">
+          <div class="servicio-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+            </svg>
+          </div>
+          <h3 class="servicio-titulo" id="servicio-consultoria">Consulting</h3>
+          <p class="servicio-descripcion">
+            We advise projects from concept to final delivery, ensuring
+            technical, budgetary, and regulatory feasibility.
+          </p>
+          <ul class="servicio-lista" aria-label="Includes">
+            <li>Feasibility studies</li>
+            <li>Budgeting and planning</li>
+            <li>Ongoing project auditing</li>
+            <li>Code and regulation advisory</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       Galería de proyectos
+  ============================================= -->
+  <section class="proyectos" id="proyectos" aria-labelledby="proyectos-titulo">
+    <div class="contenedor">
+
+      <header class="proyectos-cabecera">
+        <span class="etiqueta-seccion">Our Work</span>
+        <h2 class="titulo-seccion" id="proyectos-titulo">Our Projects</h2>
+        <p class="subtitulo-seccion">
+          A selection of completed projects that reflect our commitment
+          to quality, precision, and lasting craftsmanship.
+        </p>
+
+        <!-- Filtros de categoría -->
+        <div class="proyectos-filtros" role="group" aria-label="Filter projects by category">
+          <button class="filtro-btn activo" data-filtro="all">All</button>
+          <button class="filtro-btn" data-filtro="residential">Residential</button>
+          <button class="filtro-btn" data-filtro="commercial">Commercial</button>
+          <button class="filtro-btn" data-filtro="remodeling">Remodeling</button>
+        </div>
+      </header>
+
+      <div class="proyectos-grid" id="proyectosGrid">
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Custom Family Home">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2581.JPG" alt="Custom Family Home — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Custom Family Home</h3>
+            <p class="proyecto-descripcion">New construction single-family residence with open floor plan, premium finishes, and energy-efficient systems.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Los Angeles, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Modern Residence">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2582.JPG" alt="Modern Residence — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Modern Residence</h3>
+            <p class="proyecto-descripcion">Contemporary 4-bedroom home featuring clean lines, smart home integration, and a custom outdoor living space.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Burbank, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Office Building">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2583.JPG" alt="Office Building — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Office Building</h3>
+            <p class="proyecto-descripcion">Class A commercial office space with modern lobby, flexible floor plates, and state-of-the-art infrastructure.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Los Angeles, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Retail Complex">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2584.JPG" alt="Retail Complex — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Retail Complex</h3>
+            <p class="proyecto-descripcion">Multi-tenant retail center with high-visibility storefronts, ample parking, and sustainable design elements.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Santa Monica, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Full Interior Remodel">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2585.JPG" alt="Full Interior Remodel — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Full Interior Remodel</h3>
+            <p class="proyecto-descripcion">Complete interior transformation including new flooring, custom millwork, updated electrical, and open-concept layout.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Pasadena, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Kitchen & Bath Renovation">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2586.JPG" alt="Kitchen & Bath Renovation — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Kitchen &amp; Bath Renovation</h3>
+            <p class="proyecto-descripcion">High-end kitchen and master bath renovation with custom cabinetry, quartz countertops, and spa-inspired finishes.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Beverly Hills, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Luxury Villa">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2587.JPG" alt="Luxury Villa — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Luxury Villa</h3>
+            <p class="proyecto-descripcion">5-bedroom estate with panoramic views, infinity pool, home theater, and imported stone throughout.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Malibu, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Industrial Warehouse">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2588.JPG" alt="Industrial Warehouse — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Industrial Warehouse</h3>
+            <p class="proyecto-descripcion">30,000 sq ft tilt-up warehouse with dock-high loading, LED lighting, and office build-out.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Torrance, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Restaurant Build-Out">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2589.JPG" alt="Restaurant Build-Out — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Restaurant Build-Out</h3>
+            <p class="proyecto-descripcion">Full tenant improvement for upscale dining venue, including commercial kitchen, custom bar, and ADA-compliant layout.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              West Hollywood, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Home Addition">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2590.JPG" alt="Home Addition — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Home Addition</h3>
+            <p class="proyecto-descripcion">800 sq ft second-story addition seamlessly integrated with existing structure, adding two bedrooms and a full bath.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Glendale, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Duplex Development">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2591.JPG" alt="Duplex Development — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Duplex Development</h3>
+            <p class="proyecto-descripcion">New-construction duplex with two 3-bedroom units, private yards, and separate utility metering.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Inglewood, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Facade Renovation">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2592.JPG" alt="Facade Renovation — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Facade Renovation</h3>
+            <p class="proyecto-descripcion">Complete exterior makeover with new stucco, windows, roofing, and modern architectural details that boosted curb appeal.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Culver City, CA
+            </p>
+          </div>
+        </article>
+
+        <article class="proyecto-card animar-entrada" data-categoria="remodeling" aria-label="Hillside Estate">
+          <div class="proyecto-imagen">
+            <img src="images/IMG_2593.JPG" alt="Hillside Estate — BBC General Construction" loading="lazy" />
+            <span class="proyecto-badge">Remodeling</span>
+          </div>
+          <div class="proyecto-info">
+            <h3 class="proyecto-nombre">Hillside Estate</h3>
+            <p class="proyecto-descripcion">Custom hillside build with structural engineering challenges, cantilevered deck, and floor-to-ceiling glass walls.</p>
+            <p class="proyecto-meta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Hollywood Hills, CA
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       Sección "¿Por qué elegirnos?"
+  ============================================= -->
+  <section class="por-que" id="nosotros" aria-labelledby="por-que-titulo">
+    <div class="contenedor">
+      <div class="por-que-layout">
+
+        <!-- Columna izquierda: encabezado + estadísticas -->
+        <div>
+          <span class="etiqueta-seccion">Our Difference</span>
+          <h2 class="titulo-seccion" id="por-que-titulo">
+            Why Choose<br />BBC General Construction?
+          </h2>
+          <p class="subtitulo-seccion">
+            Every project is a commitment. We deliver results with honesty,
+            transparency, and the quality your investment deserves.
+          </p>
+
+          <!-- Stats grid -->
+          <div class="stats-grid animar-entrada" aria-label="Company statistics">
+            <div class="stat-item">
+              <div class="stat-numero" aria-label="More than 500 projects completed">500+</div>
+              <div class="stat-descripcion">Projects Completed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-numero" aria-label="25 years of experience">25 Yrs</div>
+              <div class="stat-descripcion">In Business</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: razones enumeradas -->
+        <div class="razones-lista" aria-label="Reasons to choose us">
+
+          <div class="razon-item animar-entrada">
+            <div class="razon-numero" aria-hidden="true">01</div>
+            <div class="razon-contenido">
+              <h3 class="razon-titulo">On-Time Delivery</h3>
+              <p class="razon-texto">
+                Our project management methodology ensures delivery on schedule,
+                with no delays or last-minute surprises.
+              </p>
+            </div>
+          </div>
+
+          <div class="razon-item animar-entrada">
+            <div class="razon-numero" aria-hidden="true">02</div>
+            <div class="razon-contenido">
+              <h3 class="razon-titulo">Full Transparency</h3>
+              <p class="razon-texto">
+                Clear budgets, weekly progress reports, and direct communication
+                with the project director throughout the entire build.
+              </p>
+            </div>
+          </div>
+
+          <div class="razon-item animar-entrada">
+            <div class="razon-numero" aria-hidden="true">03</div>
+            <div class="razon-contenido">
+              <h3 class="razon-titulo">Expert Team</h3>
+              <p class="razon-texto">
+                Specialized engineers, architects, and technicians working in
+                sync to exceed every client's expectations.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       Banda de llamada a la acción
+  ============================================= -->
+  <section class="cta-banda" aria-labelledby="cta-titulo">
+    <div class="contenedor">
+      <div class="cta-banda-contenido">
+        <div>
+          <h2 id="cta-titulo">Ready to Start Your Project?</h2>
+          <p>Contact us today and receive a free initial consultation.</p>
+        </div>
+        <a href="#contacto" class="btn-oscuro" data-abre-modal>Request a Quote</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       Pie de página con información de contacto
+  ============================================= -->
+  <footer class="pie" id="contacto" aria-label="Footer with contact information">
+    <div class="contenedor">
+      <div class="pie-grid">
+
+        <!-- Columna marca -->
+        <div class="pie-marca">
+          <a href="#inicio" class="logo" aria-label="BBC General Construction — Home">
+            <div class="logo-icono" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3 21V7l9-4 9 4v14H3zm2-2h4v-4H5v4zm6 0h4v-4h-4v4zm6 0h2v-4h-2v4zM5 13h4V9H5v4zm6 0h4V9h-4v4zm6 0h2V9h-2v4z"/>
+              </svg>
+            </div>
+            <div class="logo-texto">
+              <span class="logo-nombre">BBC</span>
+              <span class="logo-slogan">General Construction</span>
+            </div>
+          </a>
+          <p>
+            Over 25 years building solid structures and lasting relationships
+            with our clients across the United States.
+          </p>
+          <!-- Social media -->
+          <div class="redes-sociales" style="margin-top:1rem;" aria-label="Social media">
+            <a href="#" class="red-social" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="red-social" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path fill="var(--color-gris-medio)" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="var(--color-gris-medio)" stroke-width="2"/></svg>
+            </a>
+            <a href="#" class="red-social" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Columna navegación -->
+        <nav class="pie-nav" aria-label="Footer navigation">
+          <p class="pie-titulo">Navigation</p>
+          <ul>
+            <li><a href="#inicio">Home</a></li>
+            <li><a href="#servicios">Services</a></li>
+            <li><a href="#nosotros">About Us</a></li>
+            <li><a href="#contacto">Contact</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </nav>
+
+        <!-- Columna contacto -->
+        <address style="font-style:normal;">
+          <p class="pie-titulo">Contact</p>
+          <ul class="contacto-lista">
+
+            <li class="contacto-item">
+              <div class="contacto-icono" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+              </div>
+              <div class="contacto-texto">
+                <span class="contacto-etiqueta">Phone</span>
+                <a href="tel:+13109912102" class="contacto-valor">+1 (310) 991-2102</a>
+              </div>
+            </li>
+
+            <li class="contacto-item">
+              <div class="contacto-icono" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              </div>
+              <div class="contacto-texto">
+                <span class="contacto-etiqueta">Email</span>
+                <a href="mailto:info@bbcconstrucciones.com" class="contacto-valor">info@bbcconstrucciones.com</a>
+              </div>
+            </li>
+
+
+          </ul>
+        </address>
+
+      </div>
+
+      <!-- Barra de copyright -->
+      <div class="pie-copyright">
+        <p>© 2026 <span>BBC General Construction</span>. All rights reserved.</p>
+        <p>Building the future since <span>1999</span>.</p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- Botón flotante de WhatsApp -->
+  <a class="whatsapp-flotante"
+     href="https://wa.me/13109912102?text=Hola%2C%20estoy%20interesado%20en%20sus%20servicios%20de%20construcci%C3%B3n"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Contact via WhatsApp at +1 (310) 991-2102">
+    <span class="whatsapp-tooltip">Chat with us</span>
+    <div class="whatsapp-btn" aria-hidden="true">
+      <!-- Ícono oficial de WhatsApp -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+    </div>
+  </a>
+
+  <!-- =============================================
+       Modal de cotización
+  ============================================= -->
+  <div class="modal-overlay" id="modalCotizar" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <div class="modal-contenedor">
+
+      <button class="modal-cerrar" id="modalCerrar" aria-label="Close quote form">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+
+      <div class="modal-cabecera">
+        <span class="etiqueta-seccion">Free Quote</span>
+        <h2 class="modal-titulo" id="modalTitulo">Tell Us About Your Project</h2>
+        <p class="modal-subtitulo">Fill out the form and we'll reach out within 24 hours.</p>
+      </div>
+
+      <div class="form-error-global" id="formError" role="alert">
+        There was a problem submitting the form. Please try again.
+      </div>
+
+      <form class="modal-form" id="formCotizar" novalidate>
+
+        <div class="form-fila">
+          <div class="form-grupo">
+            <label for="campoNombre">Full Name</label>
+            <input type="text" id="campoNombre" name="name" placeholder="John Smith" required autocomplete="name" />
+          </div>
+          <div class="form-grupo">
+            <label for="campoTelefono">Phone</label>
+            <input type="tel" id="campoTelefono" name="telefono" placeholder="+1 (310) 000-0000" required autocomplete="tel" />
+          </div>
+        </div>
+
+        <div class="form-grupo">
+          <label for="campoEmail">Email Address</label>
+          <input type="email" id="campoEmail" name="email" placeholder="email@example.com" required autocomplete="email" />
+        </div>
+
+        <div class="form-grupo">
+          <label for="campoTipo">Project Type</label>
+          <select id="campoTipo" name="tipo_proyecto" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Renovation">Renovation</option>
+            <option value="Consulting">Consulting</option>
+          </select>
+        </div>
+
+        <div class="form-grupo">
+          <label for="campoDescripcion">Project Description</label>
+          <textarea id="campoDescripcion" name="descripcion" placeholder="Tell us the details: location, dimensions, materials, estimated budget..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primario" id="btnEnviarCotizacion">
+          Submit Request
+        </button>
+
+      </form>
+
+      <div class="modal-exito" id="modalExito" hidden>
+        <div class="modal-exito-icono" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        </div>
+        <h3>Request Submitted!</h3>
+        <p>We have received your quote request.<br />We'll be in touch within 24 hours.</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+    // ── EmailJS ─────────────────────────────────────────
+    emailjs.init({ publicKey: 'LfsndNlET5WWAKfkJ' });
+
+    // ── Modal de cotización ──────────────────────────────
+    const modalCotizar      = document.getElementById('modalCotizar');
+    const modalCerrar       = document.getElementById('modalCerrar');
+    const formCotizar       = document.getElementById('formCotizar');
+    const modalExito        = document.getElementById('modalExito');
+    const formError         = document.getElementById('formError');
+    const btnEnviar         = document.getElementById('btnEnviarCotizacion');
+
+    function abrirModal() {
+      modalCotizar.classList.add('activo');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        const primerCampo = formCotizar.querySelector('input, select, textarea');
+        if (primerCampo) primerCampo.focus();
+      }, 350);
+    }
+
+    function cerrarModal() {
+      modalCotizar.classList.remove('activo');
+      document.body.style.overflow = '';
+    }
+
+    // Todos los botones que abren el modal
+    document.querySelectorAll('[data-abre-modal]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        abrirModal();
+      });
+    });
+
+    modalCerrar.addEventListener('click', cerrarModal);
+
+    // Cerrar al hacer clic en el fondo del overlay
+    modalCotizar.addEventListener('click', e => {
+      if (e.target === modalCotizar) cerrarModal();
+    });
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modalCotizar.classList.contains('activo')) cerrarModal();
+    });
+
+    // Envío del formulario vía EmailJS (dos emails en paralelo)
+    formCotizar.addEventListener('submit', async e => {
+      e.preventDefault();
+      formError.classList.remove('visible');
+      btnEnviar.disabled = true;
+      btnEnviar.textContent = 'Sending…';
+
+      const nombre      = document.getElementById('campoNombre').value;
+      const telefono    = document.getElementById('campoTelefono').value;
+      const emailCliente = document.getElementById('campoEmail').value;
+      const tipo        = document.getElementById('campoTipo').value;
+      const descripcion = document.getElementById('campoDescripcion').value;
+
+      try {
+        await Promise.all([
+
+          // 1. Confirmación automática al cliente
+          emailjs.send('service_z9lxgwc', 'template_2jtipko', {
+            to_email: emailCliente,
+            name:     nombre,
+            email:    emailCliente,
+            message:  `Project Type: ${tipo} | Description: ${descripcion}`
+          }),
+
+          // 2. Notificación con datos del cliente a BBC General Construction
+          emailjs.send('service_z9lxgwc', 'template_2jtipko', {
+            to_email: 'bbccnstrctn@gmail.com',
+            name:     nombre,
+            email:    emailCliente,
+            message:  `New quote request:\n\nName: ${nombre}\nPhone: ${telefono}\nEmail: ${emailCliente}\nProject Type: ${tipo}\nDescription: ${descripcion}`
+          })
+
+        ]);
+
+        formCotizar.hidden = true;
+        modalExito.hidden = false;
+      } catch {
+        formError.classList.add('visible');
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = 'Submit Request';
+      }
+    });
+
+    // Agrega sombra al encabezado al hacer scroll
+    const encabezado = document.getElementById('encabezado');
+    window.addEventListener('scroll', () => {
+      encabezado.classList.toggle('con-sombra', window.scrollY > 20);
+    }, { passive: true });
+
+    // Hamburguesa: abre/cierra el menú móvil
+    const btnMenu = document.getElementById('btnMenu');
+    const menuMovil = document.getElementById('menuMovil');
+
+    btnMenu.addEventListener('click', () => {
+      const abierto = menuMovil.classList.toggle('abierto');
+      btnMenu.classList.toggle('activo', abierto);
+      btnMenu.setAttribute('aria-expanded', abierto);
+    });
+
+    // Cierra el menú móvil al hacer clic en un enlace
+    menuMovil.querySelectorAll('a').forEach(enlace => {
+      enlace.addEventListener('click', () => {
+        menuMovil.classList.remove('abierto');
+        btnMenu.classList.remove('activo');
+        btnMenu.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // ── Filtros de la galería de proyectos ───────────────
+    const filtros      = document.querySelectorAll('.filtro-btn');
+    const grid         = document.getElementById('proyectosGrid');
+    const tarjetas     = document.querySelectorAll('.proyecto-card');
+
+    filtros.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filtros.forEach(b => b.classList.remove('activo'));
+        btn.classList.add('activo');
+
+        const categoria = btn.dataset.filtro;
+
+        // Fade out → filter → fade in
+        grid.style.opacity = '0';
+        grid.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          tarjetas.forEach(card => {
+            const mostrar = categoria === 'all' || card.dataset.categoria === categoria;
+            card.style.display = mostrar ? '' : 'none';
+          });
+          grid.style.opacity = '1';
+          grid.style.pointerEvents = '';
+        }, 220);
+      });
+    });
+
+    // Animación de entrada con IntersectionObserver
+    const elementosAnimados = document.querySelectorAll('.animar-entrada');
+
+    if ('IntersectionObserver' in window) {
+      const observador = new IntersectionObserver((entradas) => {
+        entradas.forEach((entrada, indice) => {
+          if (entrada.isIntersecting) {
+            // Retraso escalonado para tarjetas múltiples en la misma fila
+            const retraso = indice * 80;
+            setTimeout(() => {
+              entrada.target.classList.add('visible');
+            }, retraso);
+            observador.unobserve(entrada.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      elementosAnimados.forEach(el => observador.observe(el));
+    } else {
+      // Fallback: mostrar todo sin animación si el navegador no soporta IO
+      elementosAnimados.forEach(el => el.classList.add('visible'));
+    }
+  </script>
+
+</body>
+</html>
